@@ -1,5 +1,6 @@
 package psbds.demo;
 
+import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import psbds.demo.backends.dolar.DolarAPIClientWrapper;
@@ -11,7 +12,7 @@ public class DolarService {
     @Inject
     DolarAPIClientWrapper dolarAPIClientWrapper;
     
-    public DolarAPIUsdResponse getUsdRate() {
+    public @Nullable DolarAPIUsdResponse getUsdRate() {
         return dolarAPIClientWrapper.getUsdQuotation();
     }
 }
