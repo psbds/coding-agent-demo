@@ -7,6 +7,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
+import psbds.demo.backends.dolar.model.usd.DolarAPIUsdResponse;
 
 @Path("/dolar")
 public class DolarResource {
@@ -22,7 +23,13 @@ public class DolarResource {
     public Response getUsdQuotation() {
         LOG.info("Received request for USD quotation");
         try {
-            DolarQuotation quotation = dolarService.getUsdRate();
+            DolarAPIUsdResponse quotation = dolarService.getUsdRate();
+            if (quotation == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("{\"error\": \"USD quotation not found\"}")
+                    .build();
+            }
             return Response.ok(quotation).build();
         } catch (Exception e) {
             LOG.error("Error retrieving USD quotation", e);

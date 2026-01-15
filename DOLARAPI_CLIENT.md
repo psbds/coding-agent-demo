@@ -1,77 +1,102 @@
 # DolarAPI Client
 
-This project includes a REST API client for [DolarAPI.com](https://br.dolarapi.com) to retrieve USD exchange rates in Brazilian Reais.
+This project includes a REST API client for [DolarAPI.com](https://br.dolarapi.com) to retrieve USD exchange rates in Brazilian Reais, following the project's standardized API client creation guidelines.
+
+## Architecture
+
+The implementation follows the project's **backends** pattern with proper separation of concerns:
+
+### Directory Structure
+```
+psbds/demo/backends/dolar/
+├── DolarAPIClient.java              # REST Client interface
+├── DolarAPIClientWrapper.java       # Wrapper with fault tolerance
+└── model/usd/
+    └── DolarAPIUsdResponse.java     # Response DTO
+```
 
 ## Components
 
-### DolarQuotation (DTO)
-Immutable Java record representing the USD quotation response from DolarAPI:
+### DolarAPIUsdResponse (DTO)
+Immutable DTO using Lombok annotations for the USD quotation response:
 - `moeda`: Currency code (e.g., "USD")
 - `nome`: Currency name (e.g., "Dólar")
-- `compra`: Buy price
-- `venda`: Sell price
-- `fechoAnterior`: Previous close price
-- `dataAtualizacao`: Last update timestamp
+- `compra`: Buy price (BigDecimal)
+- `venda`: Sell price (BigDecimal)
+- `fechoAnterior`: Previous close price (BigDecimal)
+- `dataAtualizacao`: Last update timestamp (LocalDateTime)
 
-### DolarApiClient (REST Client Interface)
-REST client interface annotated with `@RegisterRestClient` that connects to DolarAPI:
+**Features:**
+- Uses `@JsonProperty` for proper JSON field mapping
+- Lombok `@Getter` and `@Setter` for boilerplate reduction
+- BigDecimal for precise decimal handling
+
+### DolarAPIClient (REST Client Interface)
+MicroProfile REST Client interface:
 - Endpoint: `GET /v1/cotacoes/usd`
-- Returns: `DolarQuotation`
+- Returns: `DolarAPIUsdResponse`
+- Annotated with `@RegisterRestClient(configKey = "dolar-api")`
+
+### DolarAPIClientWrapper
+Service wrapper providing:
+- **Fault Tolerance**:
+  - `@Retry`: Up to 3 retries with 1 second delay
+  - `@Timeout`: 5 seconds timeout per request
+  - `@CircuitBreaker`: Opens after 50% failure rate in 4 requests
+- **Error Handling**: Graceful 404 handling (returns null)
+- **Logging**: Comprehensive logging for monitoring
 
 ### DolarService
-Service layer that encapsulates the DolarApiClient usage with fault tolerance features:
-- Provides a `getUsdRate()` method to retrieve current USD quotation
-- **Fault Tolerance**: 
-  - `@Retry`: Up to 3 retries with 1 second delay between attempts
-  - `@Timeout`: 5 seconds timeout per request
-  - `@CircuitBreaker`: Opens circuit after 50% failure rate in 4 requests
-- **Logging**: Comprehensive logging for monitoring and debugging
+High-level service layer that delegates to the wrapper.
 
-### DolarResource (REST Endpoint)
-REST endpoint that exposes the DolarAPI client functionality:
+### DolarResource
+REST endpoint exposing the functionality:
 - Endpoint: `GET /dolar/usd`
 - Returns: JSON response with USD quotation data
-- **Error Handling**: Proper HTTP error responses with error messages
+- Handles null responses with proper HTTP 404 status
 
 ## Configuration
 
-The DolarAPI configuration in `src/main/resources/application.properties`:
+Configuration in `src/main/resources/application.properties`:
 
 ```properties
 # DolarAPI Configuration
-quarkus.rest-client.dolar-api.url=https://br.dolarapi.com
-quarkus.rest-client.dolar-api.scope=jakarta.inject.Singleton
+quarkus.rest-client.dolar-api.url=${DOLAR_API_URL:https://br.dolarapi.com}
 
 # Connection and timeout settings
 quarkus.rest-client.dolar-api.connect-timeout=5000
 quarkus.rest-client.dolar-api.read-timeout=5000
 ```
 
-## Best Practices Implemented
+**Environment Variables:**
+- `DOLAR_API_URL`: Base URL for DolarAPI (defaults to https://br.dolarapi.com)
 
-This implementation follows Quarkus and MicroProfile best practices:
+## Best Practices Applied
 
-1. **Immutable DTOs**: Using Java records for type-safe, immutable data transfer objects
-2. **Fault Tolerance**: Retry, timeout, and circuit breaker patterns for resilient API calls
-3. **Proper Logging**: JBoss logging for monitoring and debugging
-4. **Error Handling**: Graceful error handling with meaningful error messages
-5. **External Configuration**: All settings externalized in `application.properties`
-6. **Type Safety**: Type-safe REST client using MicroProfile REST Client
-7. **Timeout Configuration**: Connection and read timeouts to prevent hanging requests
+✅ **Standardized Structure**: Following project's backends pattern  
+✅ **Naming Conventions**: `{ServiceName}APIClient`, `{ServiceName}APIClientWrapper`, `{ServiceName}API{Endpoint}Response`  
+✅ **Fault Tolerance**: Retry, timeout, and circuit breaker patterns  
+✅ **Error Handling**: Proper exception handling with null safety  
+✅ **Lombok Integration**: Reducing boilerplate code  
+✅ **Jackson JSON Mapping**: Explicit field mapping with `@JsonProperty`  
+✅ **Comprehensive Logging**: JBoss logging for monitoring  
+✅ **Type Safety**: BigDecimal for financial data, proper Java types  
 
 ## Usage
 
 ### In Code
-Inject the `DolarService` into your classes:
+Inject the `DolarAPIClientWrapper` or `DolarService`:
 
 ```java
 @Inject
 DolarService dolarService;
 
 public void example() {
-    DolarQuotation quotation = dolarService.getUsdRate();
-    System.out.println("USD Buy: " + quotation.compra());
-    System.out.println("USD Sell: " + quotation.venda());
+    DolarAPIUsdResponse quotation = dolarService.getUsdRate();
+    if (quotation != null) {
+        System.out.println("USD Buy: " + quotation.getCompra());
+        System.out.println("USD Sell: " + quotation.getVenda());
+    }
 }
 ```
 
@@ -115,4 +140,6 @@ The tests include:
 
 - `quarkus-rest-client` - Reactive REST client
 - `quarkus-rest-client-jackson` - Jackson for JSON serialization
-- `quarkus-smallrye-fault-tolerance` - Fault tolerance patterns (retry, timeout, circuit breaker)
+- `quarkus-rest-jackson` - REST JSON support
+- `quarkus-smallrye-fault-tolerance` - Resilience patterns
+- `lombok` - Boilerplate code reduction
