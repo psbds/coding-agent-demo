@@ -1,0 +1,16 @@
+# Docker ignore file to improve build performance
+target/
+.git/
+.vscode/
+*.log
+*.tmp
+.DS_Store
+node_modules/
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
