@@ -27,6 +27,7 @@ public class DolarResource {
         } catch (Exception e) {
             LOG.error("Error retrieving USD quotation", e);
             return Response.serverError()
+                .type(MediaType.APPLICATION_JSON)
                 .entity("{\"error\": \"Failed to retrieve USD quotation\"}")
                 .build();
         }

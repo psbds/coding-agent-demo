@@ -22,14 +22,9 @@ public class DolarService {
     @CircuitBreaker(requestVolumeThreshold = 4, failureRatio = 0.5, delay = 10000)
     public DolarQuotation getUsdRate() {
         LOG.info("Fetching USD exchange rate from DolarAPI");
-        try {
-            DolarQuotation quotation = dolarApiClient.getUsdQuotation();
-            LOG.infof("Successfully retrieved USD quotation: buy=%s, sell=%s", 
-                     quotation.compra(), quotation.venda());
-            return quotation;
-        } catch (Exception e) {
-            LOG.errorf(e, "Failed to fetch USD quotation from DolarAPI");
-            throw e;
-        }
+        DolarQuotation quotation = dolarApiClient.getUsdQuotation();
+        LOG.infof("Successfully retrieved USD quotation: buy=%s, sell=%s", 
+                 quotation.compra(), quotation.venda());
+        return quotation;
     }
 }
