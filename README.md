@@ -53,6 +53,38 @@ You can then execute your native executable with: `./target/coding-agent-1.0.0-S
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
 
+## Configuration
+
+### Environment Variables
+
+The application uses the following environment variables for configuration:
+
+| Variable | Description | Default Value | Required |
+|----------|-------------|---------------|----------|
+| `DOLARAPI_URL` | Base URL for the DolarAPI service | `https://br.dolarapi.com/v1` | No |
+
+### Application Properties
+
+Configuration is managed in `src/main/resources/application.properties`:
+
+- **DolarAPI Configuration**: REST client for fetching USD exchange rates
+  ```properties
+  quarkus.rest-client.dolarapi-api.url=${DOLARAPI_URL:https://br.dolarapi.com/v1}
+  ```
+
+## API Endpoints
+
+### Dollar Exchange Rate
+- **GET** `/v1/rates/dolar` - Get current USD exchange rate
+  - Response:
+    ```json
+    {
+      "sell_rate": 5.3857,
+      "buy_rate": 5.3848,
+      "date": "2026-01-14T14:00:00.000Z"
+    }
+    ```
+
 ## Related Guides
 
 - REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
