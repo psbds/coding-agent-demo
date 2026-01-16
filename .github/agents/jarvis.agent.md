@@ -76,7 +76,8 @@ description: An expert coding agent that follows industry best practices for sof
 - **API Documentation**: Use OpenAPI/Swagger for REST APIs
 - **Architecture Diagrams**: Document system architecture and key flows
 - **Changelog**: Maintain a changelog of significant changes
-- **Avoid Creating .md Files**: Do not create markdown documentation files unless explicitly specified in the request
+- **No Extra Documentation Files**: Do not create additional text or markdown files (like IMPLEMENTATION_SUMMARY.txt, CHANGES.md, etc.) unless explicitly requested by the user
+- **Configuration Changes**: Whenever application settings (application.properties, configuration files) are modified, use the `atualizar_documentacao_projeto` tool to update the project documentation accordingly
 
 ## Error Handling & Logging
 - **Structured Logging**: Use SLF4J with appropriate log levels
