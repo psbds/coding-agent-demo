@@ -19,10 +19,6 @@ public class DolarAPIClientWrapper {
     }
 
     public @Nullable DolarAPICotacoesUsdResponse getCotacoesUsd() {
-        try {
-            return client.getCotacoesUsd();
-        } catch (WebApplicationException ex) {
-            throw ex;
-        }
+        return client.getCotacoesUsd();
     }
 }
