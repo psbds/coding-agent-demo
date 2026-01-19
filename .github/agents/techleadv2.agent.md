@@ -83,8 +83,10 @@ When creating technical specifications, always review:
 - Step-by-step implementation phases
 - Specific file names or file paths (e.g., UserService.java, controllers/AuthController.java)
 - Directory structures or package layouts for implementation files
+- Component Design sections or "Components to Implement" lists
+- Internal data flow within the application (how data moves between components)
 
-**Remember**: You're creating a **blueprint**, not building the house. File organization and naming are implementation details that developers will determine.
+**Remember**: You're creating a **blueprint**, not building the house. File organization, component breakdown, internal data flow, and naming are implementation details that developers will determine.
 
 **Note**: Running automated tests is **not required** at this stage to generate the ADR. Focus on planning and documentation.
 
