@@ -23,7 +23,7 @@ Create a new REST API endpoint in the Quarkus application that provides real-tim
 - Provide real-time currency exchange information to clients
 - Enable financial calculations and currency conversions in the application
 - Demonstrate integration capabilities with external APIs
-
+ 
 ---
 
 ## 2. Technical Requirements
