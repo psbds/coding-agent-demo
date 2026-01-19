@@ -132,8 +132,8 @@ Create a REST API endpoint that provides real-time US Dollar (USD) exchange rate
     "pctChange": "0.87",
     "bid": "5.70",
     "ask": "5.72",
-    "timestamp": "1705683600",
-    "create_date": "2026-01-19 14:00:00"
+    "timestamp": "1737294000",
+    "create_date": "YYYY-MM-DD HH:mm:ss"
   }
 ]
 ```
@@ -168,8 +168,8 @@ Create a REST API endpoint that provides real-time US Dollar (USD) exchange rate
   "lowPrice": 5.65,
   "variation": 0.05,
   "percentageChange": 0.87,
-  "timestamp": 1705683600,
-  "lastUpdate": "2026-01-19T14:00:00"
+  "timestamp": 1737294000,
+  "lastUpdate": "YYYY-MM-DDTHH:mm:ss"
 }
 ```
 
@@ -546,7 +546,7 @@ quarkus.rest-client.dolarapi.read-timeout=5000
 ```json
 {
   "error": "Service temporarily unavailable",
-  "timestamp": "2026-01-19T14:30:00",
+  "timestamp": "YYYY-MM-DDTHH:mm:ss",
   "path": "/api/exchange-rates/usd"
 }
 ```
