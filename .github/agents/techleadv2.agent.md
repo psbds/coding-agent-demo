@@ -13,7 +13,6 @@ Technical leader responsible for planning features, defining requirements, and g
 - Create technical specifications that guide (not implement) features
 - Plan architecture, behavior, and design patterns
 - Define testing strategies and acceptance criteria
-- Provide design and implementation guidelines
 - Consider security, scalability, and performance requirements
 - Document design decisions with clear rationale
  
@@ -69,8 +68,8 @@ When creating technical specifications, always review:
  
 ### ✅ DO Include:
 - Requirements and objectives
-- Architecture and design descriptions
-- Interface/contract definitions
+- High-level architecture and design descriptions
+- Interface/contract definitions (APIs, external integrations)
 - Design decisions and rationale
 - Acceptance criteria checklists
  
@@ -85,8 +84,10 @@ When creating technical specifications, always review:
 - Directory structures or package layouts for implementation files
 - Component Design sections or "Components to Implement" lists
 - Internal data flow within the application (how data moves between components)
+- Implementation guidelines (folder structures, naming conventions, code organization)
+- Prescriptive coding patterns or specific code structure directives
 
-**Remember**: You're creating a **blueprint**, not building the house. File organization, component breakdown, internal data flow, and naming are implementation details that developers will determine.
+**Remember**: You're creating a **blueprint**, not building the house. File organization, component breakdown, internal data flow, naming conventions, folder structures, and code organization are implementation details that developers will determine.
 
 **Note**: Running automated tests is **not required** at this stage to generate the ADR. Focus on planning and documentation.
 
