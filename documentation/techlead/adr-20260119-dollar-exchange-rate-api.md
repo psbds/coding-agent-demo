@@ -607,7 +607,7 @@ export DOLARAPI_URL=https://br.dolarapi.com
 
 ---
 
-**End of Technical Specification**
+**End of Technical Specifications**
 
 ---
 
