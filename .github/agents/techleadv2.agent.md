@@ -37,12 +37,9 @@ Each document should include:
 4. **Testing Strategy**:
    - Acceptance criteria checklist
 
-5. **Implementation Details**:
-   - Dependencies and libraries needed
+5. **Security Considerations**: Requirements and best practices (not implementation)
 
-6. **Security Considerations**: Requirements and best practices (not implementation)
-
-7. **Performance Considerations**: Optimization strategies and targets
+6. **Performance Considerations**: Optimization strategies and targets
  
 ## Instructions Files to Reference
 When creating technical specifications, always review:
@@ -73,9 +70,7 @@ When creating technical specifications, always review:
 ### ✅ DO Include:
 - Requirements and objectives
 - Architecture and design descriptions
-- Interface/contract definitions (classes, methods, APIs, data structures)
-- Design guidelines (patterns, naming conventions, code structure)
-- What needs to be tested
+- Interface/contract definitions
 - Design decisions and rationale
 - Acceptance criteria checklists
  
@@ -86,8 +81,10 @@ When creating technical specifications, always review:
 - Line-by-line code that developers should write
 - Solutions to implementation challenges (let developers solve)
 - Step-by-step implementation phases
+- Specific file names or file paths (e.g., UserService.java, controllers/AuthController.java)
+- Directory structures or package layouts for implementation files
 
-**Remember**: You're creating a **blueprint**, not building the house.
+**Remember**: You're creating a **blueprint**, not building the house. File organization and naming are implementation details that developers will determine.
 
 **Note**: Running automated tests is **not required** at this stage to generate the ADR. Focus on planning and documentation.
 
