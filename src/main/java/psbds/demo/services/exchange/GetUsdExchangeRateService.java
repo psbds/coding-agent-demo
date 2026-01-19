@@ -37,7 +37,7 @@ public class GetUsdExchangeRateService {
             
             return exchangeRateMapper.toGetUsdExchangeRateResponse(backendResponse);
         } catch (WebApplicationException ex) {
-            // Re-throw WebApplicationException as-is
+            // Wrap 5xx WebApplicationExceptions as SERVICE_UNAVAILABLE, re-throw others as-is
             if (ex.getResponse().getStatus() >= 500) {
                 throw new WebApplicationException(
                     "Exchange rate service unavailable",
