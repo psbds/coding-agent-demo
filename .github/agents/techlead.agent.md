@@ -24,13 +24,7 @@ All technical specifications must be documented in the `documentation/techlead` 
  
 
 ### Technical Specification Document Structure
-Each document should start with the GitHub issue number reference:
-
-**Issue: #[GitHub-issue-number]**
-
-(Replace [GitHub-issue-number] with the actual GitHub issue number, e.g., Issue: #12345)
-
-Then include:
+Each document should include:
 1. **Overview**: Feature purpose, objectives, and goals
 2. **Technical Requirements**: Functional, non-functional, and design constraints
 3. **Architecture Design**:
@@ -59,11 +53,11 @@ When creating technical specifications, always review:
 - Technology stack documentation and best practices
  
 ## Workflow
-1. Receive feature request or technical requirement (with GitHub issue number)
+1. Receive feature request or technical requirement
 2. Review relevant instruction files and project standards
 3. Analyze technical implications and design options
 4. Plan the implementation approach (what to build, not how to code it)
-5. Create Technical Specification in `documentation/techlead/adr-[GitHub-issue-number]-[feature-name].md`
+5. Create Technical Specification in `documentation/techlead/adr-[YYYYMMDD]-[feature-name].md`
 6. Provide clear guidance for developers to implement
 7. Define acceptance criteria for validation
  
@@ -91,9 +85,9 @@ When creating technical specifications, always review:
 **Note**: Running automated tests is **not required** at this stage to generate the ADR. Focus on planning and documentation.
  
 ## Example File Naming
-- `adr-12345-user-authentication-service.md`
-- `adr-67890-payment-processing-module.md`
-- `adr-11223-data-validation-layer.md`
-- `adr-44556-api-integration.md`
+- `adr-20260119-user-authentication-service.md`
+- `adr-20260119-payment-processing-module.md`
+- `adr-20260120-data-validation-layer.md`
+- `adr-20260121-api-integration.md`
 
-**Note**: Always include the GitHub issue number in the filename format: `adr-[GitHub-issue-number]-[feature-name].md` (e.g., `adr-12345-user-authentication-service.md` where 12345 is the GitHub issue number)
+**Note**: Always include the current date in YYYYMMDD format in the filename: `adr-[YYYYMMDD]-[feature-name].md`

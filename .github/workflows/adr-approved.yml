@@ -41,12 +41,18 @@ jobs:
             # Extract just the filename from the path
             filename=$(basename "$filepath")
             
+            # Remove the file extension
+            filename_without_ext="${filename%.*}"
+            
+            # Create issue title with [ADR] prefix
+            issue_title="[ADR] $filename_without_ext"
+            
             # Read the file content
             file_content=$(cat "$filepath")
             
-            # Create an issue with the filename as the title and file content in the body
+            # Create an issue with the formatted title and file content in the body
             gh issue create \
-              --title "$filename" \
+              --title "$issue_title" \
               --body "New documentation file created: \`$filepath\`
 
           This issue was automatically created because the file was added in PR #${{ github.event.pull_request.number }}.
@@ -64,5 +70,5 @@ jobs:
           \`\`\`" \
               --label "documentation"
             
-            echo "Created issue for: $filename"
+            echo "Created issue for: $issue_title"
           done < added_files.txt
