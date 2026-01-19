@@ -49,19 +49,19 @@ jobs:
               --title "$filename" \
               --body "New documentation file created: \`$filepath\`
 
-This issue was automatically created because the file was added in PR #${{ github.event.pull_request.number }}.
+          This issue was automatically created because the file was added in PR #${{ github.event.pull_request.number }}.
 
-**File:** $filepath
-**PR:** #${{ github.event.pull_request.number }}
-**Author:** @${{ github.event.pull_request.user.login }}
+          **File:** $filepath
+          **PR:** #${{ github.event.pull_request.number }}
+          **Author:** @${{ github.event.pull_request.user.login }}
 
----
+          ---
 
-## File Contents
+          ## File Contents
 
-\`\`\`markdown
-$file_content
-\`\`\`" \
+          \`\`\`markdown
+          $file_content
+          \`\`\`" \
               --label "documentation"
             
             echo "Created issue for: $filename"

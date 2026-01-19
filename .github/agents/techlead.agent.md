@@ -22,8 +22,13 @@ Technical leader responsible for planning features, defining requirements, and g
 ## Output Requirements
 All technical specifications must be documented in the `documentation/techlead` folder as Technical Implementation Documents.
  
+
 ### Technical Specification Document Structure
-Each document should include:
+Each document should start with the issue number reference:
+
+**Issue: #[issue-id]**
+
+Then include:
 1. **Overview**: Feature purpose, objectives, and goals
 2. **Technical Requirements**: Functional, non-functional, and design constraints
 3. **Architecture Design**:
