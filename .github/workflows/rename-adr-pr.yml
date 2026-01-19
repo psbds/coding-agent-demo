@@ -35,15 +35,16 @@ jobs:
           first_file=$(echo "$changed_files" | head -n 1)
           echo "Changed file: $first_file"
           
-          # Read the first line of the file and extract issue number
-          first_line=$(head -n 1 "$first_file")
-          echo "First line: $first_line"
+          # Read the first 5 lines of the file and extract issue number
+          first_lines=$(head -n 5 "$first_file")
+          echo "First 5 lines:"
+          echo "$first_lines"
           
-          # Extract issue number from format "Issue: #1245"
-          issue_id=$(echo "$first_line" | grep -oP '(?<=Issue: #)\d+' || echo "")
+          # Extract issue number from format "Issue: #1245" in the first 5 lines
+          issue_id=$(echo "$first_lines" | grep -oP '(?<=Issue: #)\d+' | head -n 1 || echo "")
           
           if [ -z "$issue_id" ]; then
-            echo "Could not extract issue ID from first line"
+            echo "Could not extract issue ID from first 5 lines"
             echo "has_issue_id=false" >> $GITHUB_OUTPUT
           else
             echo "Extracted issue ID: $issue_id"

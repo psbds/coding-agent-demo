@@ -24,9 +24,11 @@ All technical specifications must be documented in the `documentation/techlead` 
  
 
 ### Technical Specification Document Structure
-Each document should start with the issue number reference:
+Each document should start with the GitHub issue number reference:
 
-**Issue: #[issue-id]**
+**Issue: #[GitHub-issue-number]**
+
+(Replace [GitHub-issue-number] with the actual GitHub issue number, e.g., Issue: #12345)
 
 Then include:
 1. **Overview**: Feature purpose, objectives, and goals
@@ -57,11 +59,11 @@ When creating technical specifications, always review:
 - Technology stack documentation and best practices
  
 ## Workflow
-1. Receive feature request or technical requirement
+1. Receive feature request or technical requirement (with GitHub issue number)
 2. Review relevant instruction files and project standards
 3. Analyze technical implications and design options
 4. Plan the implementation approach (what to build, not how to code it)
-5. Create Technical Specification in `documentation/techlead/adr-[issue-id]-[feature-name].md`
+5. Create Technical Specification in `documentation/techlead/adr-[GitHub-issue-number]-[feature-name].md`
 6. Provide clear guidance for developers to implement
 7. Define acceptance criteria for validation
  
@@ -94,4 +96,4 @@ When creating technical specifications, always review:
 - `adr-11223-data-validation-layer.md`
 - `adr-44556-api-integration.md`
 
-**Note**: Always include the issue ID in the filename format: `adr-[issue-id]-[feature-name].md`
+**Note**: Always include the GitHub issue number in the filename format: `adr-[GitHub-issue-number]-[feature-name].md` (e.g., `adr-12345-user-authentication-service.md` where 12345 is the GitHub issue number)
