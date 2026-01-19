@@ -1,6 +1,6 @@
 # Technical Specification: Dollar Exchange Rate Endpoint
 
-**Issue: #1**
+**Issue: #6**
 
 ---
 
