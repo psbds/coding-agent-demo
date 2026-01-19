@@ -13,6 +13,9 @@ jobs:
     # Only run if the PR was actually merged and from a copilot/* branch
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'copilot/')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     
     steps:
       - name: Checkout code
