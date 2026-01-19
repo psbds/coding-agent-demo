@@ -1,0 +1,68 @@
+name: ADR Approved
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+    paths:
+      - 'documentation/techlead/**'
+
+jobs:
+  create-issue:
+    # Only run if the PR was actually merged and from a copilot/* branch
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'copilot/')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get changed files
+        id: changed-files
+        run: |
+          # Get the list of added files in documentation/techlead folder
+          git diff --name-only --diff-filter=A ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep '^documentation/techlead/' > added_files.txt || true
+          
+          if [ -s added_files.txt ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create issues for new files
+        if: steps.changed-files.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          while IFS= read -r filepath; do
+            # Extract just the filename from the path
+            filename=$(basename "$filepath")
+            
+            # Read the file content
+            file_content=$(cat "$filepath")
+            
+            # Create an issue with the filename as the title and file content in the body
+            gh issue create \
+              --title "$filename" \
+              --body "New documentation file created: \`$filepath\`
+
+This issue was automatically created because the file was added in PR #${{ github.event.pull_request.number }}.
+
+**File:** $filepath
+**PR:** #${{ github.event.pull_request.number }}
+**Author:** @${{ github.event.pull_request.user.login }}
+
+---
+
+## File Contents
+
+\`\`\`markdown
+$file_content
+\`\`\`" \
+              --label "documentation"
+            
+            echo "Created issue for: $filename"
+          done < added_files.txt
