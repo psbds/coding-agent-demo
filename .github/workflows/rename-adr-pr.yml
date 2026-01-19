@@ -1,0 +1,90 @@
+name: ADR Rename PR
+
+on:
+  push:
+    branches:
+      - 'copilot/**'
+    paths:
+      - 'documentation/techlead/**'
+
+jobs:
+  rename-pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Get changed files and extract issue ID
+        id: get-issue-id
+        run: |
+          # Get the changed files in documentation/techlead
+          changed_files=$(git diff --name-only HEAD^ HEAD | grep '^documentation/techlead/' || true)
+          
+          if [ -z "$changed_files" ]; then
+            echo "No changes in documentation/techlead"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          
+          # Get the first changed file
+          first_file=$(echo "$changed_files" | head -n 1)
+          echo "Changed file: $first_file"
+          
+          # Read the first line of the file and extract issue number
+          first_line=$(head -n 1 "$first_file")
+          echo "First line: $first_line"
+          
+          # Extract issue number from format "Issue: #1245"
+          issue_id=$(echo "$first_line" | grep -oP '(?<=Issue: #)\d+' || echo "")
+          
+          if [ -z "$issue_id" ]; then
+            echo "Could not extract issue ID from first line"
+            echo "has_issue_id=false" >> $GITHUB_OUTPUT
+          else
+            echo "Extracted issue ID: $issue_id"
+            echo "issue_id=$issue_id" >> $GITHUB_OUTPUT
+            echo "has_issue_id=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Find and rename PR
+        if: steps.get-issue-id.outputs.has_changes == 'true' && steps.get-issue-id.outputs.has_issue_id == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_ID: ${{ steps.get-issue-id.outputs.issue_id }}
+        run: |
+          # Get the branch name
+          branch_name="${GITHUB_REF#refs/heads/}"
+          echo "Branch name: $branch_name"
+          
+          # Find PR for this branch
+          pr_number=$(gh pr list --head "$branch_name" --json number --jq '.[0].number')
+          
+          if [ -z "$pr_number" ]; then
+            echo "No PR found for branch $branch_name"
+            exit 0
+          fi
+          
+          echo "Found PR #$pr_number"
+          
+          # Get current PR title
+          current_title=$(gh pr view "$pr_number" --json title --jq '.title')
+          echo "Current PR title: $current_title"
+          
+          # Check if title already starts with [ADR
+          if [[ "$current_title" =~ ^\[ADR ]]; then
+            echo "PR title already has ADR prefix, skipping"
+            exit 0
+          fi
+          
+          # Create new title with ADR prefix
+          new_title="[ADR $ISSUE_ID] $current_title"
+          echo "New PR title: $new_title"
+          
+          # Update PR title
+          gh pr edit "$pr_number" --title "$new_title"
+          echo "PR title updated successfully"
