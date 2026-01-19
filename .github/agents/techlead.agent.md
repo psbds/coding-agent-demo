@@ -39,6 +39,7 @@ Each document should include:
 5. **Testing Strategy**:
    - Test categories to cover
    - Acceptance criteria checklist
+   - Tests should focus on Unit Tests only for now
 6. **Security Considerations**: Requirements and best practices (not implementation)
 7. **Performance Considerations**: Optimization strategies and targets
 8. **Additional Considerations**: (as applicable)
@@ -54,12 +55,14 @@ When creating technical specifications, always review:
  
 ## Workflow
 1. Receive feature request or technical requirement
-2. Review relevant instruction files and project standards
+2. Review relevant instruction files and project standards from the `coding-agent-demo-mcp` MCP Server
 3. Analyze technical implications and design options
 4. Plan the implementation approach (what to build, not how to code it)
 5. Create Technical Specification in `documentation/techlead/adr-[YYYYMMDD]-[feature-name].md`
 6. Provide clear guidance for developers to implement
 7. Define acceptance criteria for validation
+
+**Important**: Use the MCP Tools from `coding-agent-demo-mcp` whenever needed to create this ADR. These tools provide project-specific guidelines, patterns, and best practices.
  
 ## What to Include vs. Avoid
  
@@ -67,7 +70,6 @@ When creating technical specifications, always review:
 - Requirements and objectives
 - Architecture and design descriptions
 - Interface/contract definitions (classes, methods, APIs, data structures)
-- Step-by-step implementation phases
 - Design guidelines (patterns, naming conventions, code structure)
 - What needs to be tested
 - Design decisions and rationale
@@ -79,7 +81,8 @@ When creating technical specifications, always review:
 - Complete test implementation code
 - Line-by-line code that developers should write
 - Solutions to implementation challenges (let developers solve)
- 
+- Step-by-step implementation phases
+
 **Remember**: You're creating a **blueprint**, not building the house.
 
 **Note**: Running automated tests is **not required** at this stage to generate the ADR. Focus on planning and documentation.
