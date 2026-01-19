@@ -74,7 +74,7 @@ The Brazilian Dollar API returns data in the following structure:
 **DTO Structure Needed**:
 - Create a DTO class to represent the exchange rate response
 - Include fields: code, codein, name, high, low, varBid, pctChange, bid, ask, timestamp, create_date
-- Use appropriate data types (String for monetary values to avoid precision issues, Long for timestamp)
+- Use appropriate data types (BigDecimal for monetary values for precision and type safety, Long for timestamp, String for codes and names)
 - Apply Jackson annotations for JSON mapping
 - Consider using Lombok for boilerplate reduction (if available)
 
@@ -212,12 +212,14 @@ src/main/java/psbds/demo/
 
 Add to `pom.xml`:
 ```xml
-<!-- Quarkus REST Client -->
+<!-- Quarkus REST Client (includes Jackson support by default) -->
 <dependency>
     <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-rest-client-jackson</artifactId>
+    <artifactId>quarkus-rest-client</artifactId>
 </dependency>
 ```
+
+**Note**: For Quarkus 3.x, `quarkus-rest-client` includes Jackson JSON support by default. In older versions, `quarkus-rest-client-jackson` was used, but this has been consolidated in modern Quarkus versions.
 
 ### 4.4 Configuration Management
 
@@ -225,12 +227,13 @@ In `src/main/resources/application.properties`:
 ```properties
 # Dollar API Client Configuration
 quarkus.rest-client.dollar-api.url=https://br.dolarapi.com/v1
-quarkus.rest-client.dollar-api.scope=jakarta.inject.Singleton
 
-# Timeout configurations
+# Timeout configurations (in milliseconds)
 quarkus.rest-client.dollar-api.connect-timeout=5000
 quarkus.rest-client.dollar-api.read-timeout=5000
 ```
+
+**Note**: REST clients are singleton-scoped by default in Quarkus, so explicit scope configuration is not necessary.
 
 ### 4.5 Design Guidelines
 
